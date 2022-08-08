@@ -40,9 +40,6 @@ public class Main {
     private static final AtomicReference<Subscription> subscriptionRef = new AtomicReference<>();
 
     public static void main(String[] args) throws Throwable {
-        String query = "subscription {" +
-                       "  cases { description user { name } } }";
-
         Instrumentation instrumentation = new ChainedInstrumentation(
                 singletonList(new TracingInstrumentation())
         );
@@ -53,10 +50,13 @@ public class Main {
                 .build();
 
         runCasesQuery(graphQL);
-        subscribeToCasesEvent(query, graphQL);
+        subscribeToCasesEvent(graphQL);
     }
 
-    private static void subscribeToCasesEvent(String query, GraphQL graphQL) throws InterruptedException {
+    private static void subscribeToCasesEvent(GraphQL graphQL) throws InterruptedException {
+        String query = "subscription {" +
+                "  cases { description user { name } } }";
+
         DataLoaderRegistry dlr = createDataLoaderRegistry();
 
         ExecutionInput executionInput = ExecutionInput.newExecutionInput()

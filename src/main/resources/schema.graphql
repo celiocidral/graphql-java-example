@@ -1,0 +1,21 @@
+schema {
+    query: Query
+    subscription : Subscription
+}
+
+type Query {
+    getCases : [Case]
+}
+
+type Subscription {
+    cases : [Case]
+}
+
+type Case {
+    description : String
+    user : User
+}
+
+type User {
+    name : String
+}
